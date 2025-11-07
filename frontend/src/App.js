@@ -25,6 +25,7 @@ function App() {
       <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
       <input type='number' value={contact} onChange={(e) => setcontact(e.target.value)}/>
       <select value={usertype} onChange={(e) => setuser(e.target.value)}>
+        <option>--Choose role--</option>
         <option>Donor</option>
         <option>Patient</option>
       </select>

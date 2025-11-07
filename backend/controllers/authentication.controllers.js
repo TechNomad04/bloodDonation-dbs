@@ -21,6 +21,25 @@ const signup = async(req, res) => {
     }
 }
 
+const login = async(req, res) => {
+    try {
+        const {name, contact, usertype} = req.body
+
+        if(!name || !contact || !usertype)
+            return res.status(400).json({status: false, message: "Missing fields"})
+
+        const user = await User.findOne({name, contact, usertype})
+        if(!user)
+            return res.status(404).json({status: false, message: "User not found"})
+
+        return res.status(200).json({status: true, user})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({status: false, message: "Internal server error"})
+    }
+}
+
 module.exports = {
-    signup
+    signup,
+    login
 }

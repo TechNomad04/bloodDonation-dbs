@@ -14,7 +14,20 @@ function App() {
         contact,
         usertype
       })
-      console.log(response.user)
+      console.log(response.data.user)
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+
+  const login = async() => {
+    try {
+      const response = await axios.post('http://localhost:5000/auth/login', {
+        name,
+        contact,
+        usertype
+      })
+      console.log(response.data.user)
     } catch (err) {
       console.log(err.message)
     }
@@ -30,6 +43,7 @@ function App() {
         <option>Patient</option>
       </select>
       <button onClick={signup}>Signup</button>
+      <button onClick={login}>Login</button>
     </div>
   );
 }

@@ -7,7 +7,7 @@ const signup = async(req, res) => {
         if(!name || !contact || ! usertype)
             return res.status(400).json({status: true, message: "Missing fields"})
 
-        let user = await User.find({contact})
+        let user = await User.findOne({contact})
         if(user)
             return res.status(409).json({status: false, message: "User already exists"})
 

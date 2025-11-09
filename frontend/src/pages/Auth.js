@@ -38,15 +38,19 @@ const Auth = () => {
 
     return (
         <div className="App">
-        <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
-        <input type='number' value={contact} onChange={(e) => setcontact(e.target.value)}/>
-        <select value={usertype} onChange={(e) => setuser(e.target.value)}>
-            <option>--Choose role--</option>
-            <option>Donor</option>
-            <option>Patient</option>
-        </select>
-        <button onClick={signup}>Signup</button>
-        <button onClick={login}>Login</button>
+        <div>
+            <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
+            <input type='number' value={contact} onChange={(e) => setcontact(e.target.value)}/>
+            <select value={usertype} onChange={(e) => setuser(e.target.value)}>
+                <option>--Choose role--</option>
+                <option>Donor</option>
+                <option>Patient</option>
+            </select>
+            <button onClick={signup}>Signup</button>
+            <button onClick={login}>Login</button>
+            <button onClick={() => {navigate('/adlogin')}}>Go to admin login</button>
+            <button onClick={() => {navigate('/superadlogin')}}>Go to superadmin login</button>
+        </div>
         </div>
     );
 }

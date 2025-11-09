@@ -7,8 +7,10 @@ app.use(cors())
 app.use(express.json())
 
 const authRoutes = require('./routes/auth.routes')
+const bankRoutes = require('./routes/bank.routes')
 
 app.use('/auth', authRoutes)
+app.use('/bank', bankRoutes)
 
 require('dotenv').config()
 connectdb()

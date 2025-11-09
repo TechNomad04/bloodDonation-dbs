@@ -16,12 +16,20 @@ const donorschema = new mongoose.Schema({
         type: String,
         enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
     },
+    bank: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Bank'
+    }
 })
 
 const patientSchema = new mongoose.Schema({
     bloodgroup: {
         type: String,
         enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+    },
+    bank: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Bank'
     }
 })
 

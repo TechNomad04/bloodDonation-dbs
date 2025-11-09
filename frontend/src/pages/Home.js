@@ -9,8 +9,7 @@ const Home = () => {
             <div>
                 {loggedIn ? (
                     <div>
-                        <button>Donate</button>
-                        <button>Seach for banks</button>
+                        <button>Search for banks</button>
                         <button>Search for match</button>
                     </div>
                 ): (

@@ -14,7 +14,7 @@ const bankSchema = new mongoose.Schema({
         required: true
     },
     pincode: {
-        type: Number,
+        type: String,
         required: true
     },
     city: {
@@ -29,4 +29,4 @@ const bankSchema = new mongoose.Schema({
 
 const Bank = mongoose.model("Bank", bankSchema)
 
-module.exports = Bank
+module.exports = {Bank}

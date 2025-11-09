@@ -6,7 +6,12 @@ const addbank = async(req, res) => {
         if(!name || !addressline1 || !addressline2 || !pincode || !city || !state)
             return res.status(400).json({status:false, message: "Missing fields"})
 
-        const bank = new Bank({name, addressline1, addressline2, pincode, city, state})
+        let bank = await Bank.findOne({name, city, state})
+
+        if(bank)
+            return res.status(409).json({status: false, message: "Aleady exists"})
+
+        bank = new Bank({name, addressline1, addressline2, pincode, city, state})
         await bank.save()
 
         return res.status(200).json({status: true, bank})
@@ -16,4 +21,6 @@ const addbank = async(req, res) => {
     }
 }
 
-module.exports = addbank
+module.exports = {
+    addbank
+}

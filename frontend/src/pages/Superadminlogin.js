@@ -1,10 +1,12 @@
 import axios from "axios"
-import { use, useState } from "react"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 const Superadminlog = () => {
     const [name, setname] = useState('')
     const [email, setemail] = useState('')
     const [loggedin, setloggedin] = useState(false)
+    const navigate = useNavigate()
 
     const login = async() => {
         try {
@@ -14,7 +16,7 @@ const Superadminlog = () => {
             })
             setloggedin(true)
             console.log(response.data.user)
-            Navigate('/superadhome', {state: {loggedin}})
+            navigate('/superadhome', {state: {loggedin}})
         } catch (err) {
             console.log(err.message)
         }

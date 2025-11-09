@@ -5,7 +5,7 @@ const Superadhome = () => {
     const [name, setName] = useState('')
     const [addressline1, setaddressline1] = useState('')
     const [addressline2, setaddressline2] = useState('')
-    const [pincode, setpincode] = useState('')
+    const [pincode, setpincode] = useState(0)
     const [city, setcity] = useState('')
     const [state, setstate] = useState('')
 
@@ -19,7 +19,7 @@ const Superadhome = () => {
                 city,
                 state
             })
-            console.log(response.message.bank)
+            console.log(response.data.bank)
         } catch (err) {
             console.log(err)
         }

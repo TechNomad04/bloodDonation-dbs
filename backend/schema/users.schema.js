@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const user = new mongoose.Schema({
+const userschema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -9,12 +9,27 @@ const user = new mongoose.Schema({
         type: String,
         required: true
     },
-    usertype: {
+}, {timestamps: true})
+
+const donorschema = new mongoose.Schema({
+    bloodgroup: {
         type: String,
-        enum: ['Donor', 'Patient'],
-        required: true
+        enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+    },
+})
+
+const patientSchema = new mongoose.Schema({
+    bloodgroup: {
+        type: String,
+        enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
     }
 })
 
-const User = mongoose.model("User", user)
-module.exports = User
+const User = mongoose.model("User", userschema)
+const Donor = User.discriminator("Donor", donorschema)
+const Patient = User.discriminator("Patient", patientSchema)
+module.exports = {
+    User,
+    Donor,
+    Patient
+}

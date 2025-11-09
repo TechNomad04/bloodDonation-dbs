@@ -1,51 +1,16 @@
-import './App.css';
-import axios from 'axios'
-import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Auth from "./pages/Auth";
+import Home from "./pages/Home";
 
 function App() {
-  const [name, setName] = useState('');
-  const [contact, setcontact] = useState('')
-  const [usertype, setuser] = useState('')
-
-  const signup = async () => {
-    try {
-      const response = await axios.post('http://localhost:5000/auth/signup', {
-        name,
-        contact,
-        usertype
-      })
-      console.log(response.data.user)
-    } catch (err) {
-      console.log(err.message)
-    }
-  }
-
-  const login = async() => {
-    try {
-      const response = await axios.post('http://localhost:5000/auth/login', {
-        name,
-        contact,
-        usertype
-      })
-      console.log(response.data.user)
-    } catch (err) {
-      console.log(err.message)
-    }
-  }
-
-  return (
-    <div className="App">
-      <input type='text' value={name} onChange={(e) => setName(e.target.value)}/>
-      <input type='number' value={contact} onChange={(e) => setcontact(e.target.value)}/>
-      <select value={usertype} onChange={(e) => setuser(e.target.value)}>
-        <option>--Choose role--</option>
-        <option>Donor</option>
-        <option>Patient</option>
-      </select>
-      <button onClick={signup}>Signup</button>
-      <button onClick={login}>Login</button>
-    </div>
-  );
+  return(
+    <Router>
+      <Routes>
+        <Route path="/" element={<Auth/>}/>
+        <Route path="/home" element={<Home/>}/>
+      </Routes>
+    </Router>
+  )
 }
 
 export default App;

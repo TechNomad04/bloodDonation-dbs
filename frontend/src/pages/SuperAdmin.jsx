@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import api from '../api'
+import { useAuth } from '../context/AuthContext'
 
-export default function SuperAdmin({ user, onLogout }) {
+export default function SuperAdmin() {
+	const { user, logout } = useAuth()
 	const [banks, setBanks] = useState([])
 	const [name, setName] = useState('')
 	const [address, setAddress] = useState('')
@@ -29,7 +31,7 @@ export default function SuperAdmin({ user, onLogout }) {
 		<div>
 			<div className="card row" style={{ justifyContent: 'space-between' }}>
 				<h1>Super Admin</h1>
-				<button className="secondary" onClick={onLogout}>Logout</button>
+				<button className="secondary" onClick={logout}>Logout</button>
 			</div>
 			<div className="card">
 				<h2>Add Blood Bank</h2>

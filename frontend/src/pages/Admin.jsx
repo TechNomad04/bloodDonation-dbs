@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import api from '../api'
+import { useAuth } from '../context/AuthContext'
 
 const groups = ['A+','A-','B+','B-','AB+','AB-','O+','O-']
 
-export default function Admin({ user, onLogout }) {
+export default function Admin() {
+	const { user, logout } = useAuth()
 	const [banks, setBanks] = useState([])
 	const [users, setUsers] = useState([])
 	const [name, setName] = useState('')
@@ -44,7 +46,7 @@ export default function Admin({ user, onLogout }) {
 		<div>
 			<div className="card row" style={{ justifyContent: 'space-between' }}>
 				<h1>Bank Admin</h1>
-				<button className="secondary" onClick={onLogout}>Logout</button>
+				<button className="secondary" onClick={logout}>Logout</button>
 			</div>
 			<div className="card">
 				<h2>My Bank</h2>

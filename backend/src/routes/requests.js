@@ -11,6 +11,7 @@ router.post('/donate', auth, requireRole('donor'), async (req, res) => {
 	if (!bank) return res.status(404).json({ message: 'Bank not found' })
 	const r = await Request.create({ type: 'donation', bank: bankId, requestedBy: req.user.id, bloodGroup })
 	res.status(201).json(r)
+	try { req.app.get('io').emit('requests:changed', { bankId: String(bankId) }) } catch {}
 })
 
 router.post('/receive', auth, requireRole('patient'), async (req, res) => {
@@ -44,6 +45,9 @@ router.post('/:id/approve', auth, requireRole('admin'), async (req, res) => {
 	r.status = 'approved'
 	await r.save()
 	res.json({ ok: true })
+	try { req.app.get('io').emit('requests:changed', { bankId: String(r.bank._id) }) } catch {}
+	try { req.app.get('io').emit('banks:changed') } catch {}
+	try { req.app.get('io').emit('bank:details:changed', { bankId: String(r.bank._id) }) } catch {}
 })
 
 router.post('/:id/reject', auth, requireRole('admin'), async (req, res) => {
@@ -52,6 +56,7 @@ router.post('/:id/reject', auth, requireRole('admin'), async (req, res) => {
 	r.status = 'rejected'
 	await r.save()
 	res.json({ ok: true })
+	try { req.app.get('io').emit('requests:changed', { bankId: String(r.bank._id) }) } catch {}
 })
 
 export default router

@@ -11,6 +11,13 @@ export default function Donor() {
 	const [bloodGroup, setBloodGroup] = useState(user?.bloodGroup || 'A+')
 	const [message, setMessage] = useState('')
 	useEffect(() => { api.get('/banks').then(r => setBanks(r.data)) }, [])
+	// Auto-refresh banks every 10s to keep list fresh
+	useEffect(() => {
+		const id = setInterval(() => {
+			api.get('/banks').then(r => setBanks(r.data))
+		}, 10000)
+		return () => clearInterval(id)
+	}, [])
 	const submit = async () => {
 		setMessage('')
 		if (!bankId) return
@@ -32,7 +39,7 @@ export default function Donor() {
 				<div className="row">
 					<select value={bankId} onChange={e => setBankId(e.target.value)}>
 						<option value="">Select Bank</option>
-						{banks.map(b => <option key={b._id} value={b._id}>{b.name}</option>)}
+						{banks.map(b => <option key={b._id} value={b._id}>{b.name} — {b.address}</option>)}
 					</select>
 					<select value={bloodGroup} onChange={e => setBloodGroup(e.target.value)}>
 						{groups.map(g => <option key={g} value={g}>{g}</option>)}

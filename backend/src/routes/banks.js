@@ -25,11 +25,15 @@ router.post('/', auth, requireRole('superadmin'), async (req, res) => {
 		bank: created._id
 	})
 	res.status(201).json(created)
+	// Realtime notify
+	try { req.app.get('io').emit('banks:changed') } catch {}
+	try { req.app.get('io').emit('superadmin:users:changed') } catch {}
 })
 
 router.delete('/:id', auth, requireRole('superadmin'), async (req, res) => {
 	await BloodBank.findByIdAndDelete(req.params.id)
 	res.json({ ok: true })
+	try { req.app.get('io').emit('banks:changed') } catch {}
 })
 
 export default router

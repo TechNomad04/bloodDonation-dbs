@@ -1,0 +1,16 @@
+:root { font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif }
+body { margin: 0; background: #f5f6fa; color: #222 }
+.container { max-width: 960px; margin: 0 auto; padding: 24px }
+.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 16px }
+.row { display: flex; gap: 12px; align-items: center }
+.col { flex: 1 }
+input, select, button { padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px }
+button { background: #111827; color: #fff; cursor: pointer }
+button.secondary { background: #6b7280 }
+h1 { font-size: 22px; margin: 0 0 12px }
+h2 { font-size: 18px; margin: 16px 0 8px }
+table { width: 100%; border-collapse: collapse; }
+td, th { border: 1px solid #e5e7eb; padding: 8px; text-align: left }
+.actions { display: flex; gap: 8px }
+
+

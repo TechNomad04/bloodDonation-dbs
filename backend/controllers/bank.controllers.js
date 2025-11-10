@@ -31,7 +31,21 @@ const fetchbanks = async (req, res) => {
     }
 }
 
+const removebank = async(req, res) => {
+    try {
+        const {name, city, state} = req.body
+        if(!name || !city || !state) 
+            return res.status(400).json({status: false, message: "Missing fields"})
+        const bank = await Bank.findOneAndDelete({name, city, state})
+        return res.status(200).json({status: true, bank})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({status: false, message: "Internal server error"})
+    }
+}
+
 module.exports = {
     addbank,
-    fetchbanks
+    fetchbanks,
+    removebank
 }

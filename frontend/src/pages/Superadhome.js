@@ -40,6 +40,18 @@ const Superadhome = () => {
         }
     }
 
+    const removebank = async(name, city, state) => {
+        try{
+            const response = await axios.delete('http://localhost:5000/bank/deletebank',{
+                data: {name, city,state}
+            })
+            console.log(response.data.bank)
+            await fetchbanks()
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
     useEffect(() => {
         fetchbanks()
     }, [])
@@ -59,6 +71,7 @@ const Superadhome = () => {
                     <div>{bank.name}</div>
                     <div>{bank.city}</div>
                     <div>{bank.state}</div>
+                    <button onClick={() => removebank(bank.name, bank.city, bank.state)}>Remove bank</button>
                 </div>
             ))}
         </div>

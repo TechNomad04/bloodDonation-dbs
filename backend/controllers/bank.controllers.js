@@ -21,6 +21,17 @@ const addbank = async(req, res) => {
     }
 }
 
+const fetchbanks = async (req, res) => {
+    try {
+        const banks = await Bank.find()
+        return res.status(200).json({status: true, banks})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({status: false, message: "Internal server error"})
+    }
+}
+
 module.exports = {
-    addbank
+    addbank,
+    fetchbanks
 }

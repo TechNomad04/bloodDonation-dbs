@@ -108,6 +108,7 @@ router.post('/signup', async (req, res) => {
         // Send success response
         res.status(201).json({ 
             token, 
+            id: created._id,
             role: created.role, 
             name: created.name, 
             bank: created.bank, 
@@ -148,7 +149,8 @@ router.post('/login', async (req, res) => {
         console.log('✅ Login successful:', { id: user._id, email: user.email, role: user.role })
         const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' })
         res.json({ 
-            token, 
+            token,
+            id: user._id,
             role: user.role, 
             name: user.name, 
             bank: user.bank, 

@@ -18,6 +18,8 @@ export default function Admin() {
 	const [activeTab, setActiveTab] = useState('dashboard')
 	const [userQuery, setUserQuery] = useState('')
 	const [reqQuery, setReqQuery] = useState('')
+	const [error, setError] = useState('')
+	const [success, setSuccess] = useState('')
 	const myBank = useMemo(() => (banks.find(b => String(b._id) === String(user?.bank)) || {}), [banks, user])
 	const load = async () => {
 		const bs = await api.get('/banks')
@@ -54,10 +56,27 @@ export default function Admin() {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user?.bank])
 	const addUser = async () => {
-		if (!name || !email || !password) return
-		await api.post('/admin/users', { name, email, password, role, bloodGroup })
-		setName(''); setEmail(''); setPassword('')
-		load()
+		setError('')
+		setSuccess('')
+		if (!name || !email || !password) {
+			setError('Please fill in all fields')
+			return
+		}
+		try {
+			await api.post('/admin/users', { name, email, password, role, bloodGroup })
+			setSuccess('User added successfully!')
+			setName('')
+			setEmail('')
+			setPassword('')
+			setRole('donor')
+			setBloodGroup('A+')
+			setTimeout(() => setSuccess(''), 3000)
+			load()
+		} catch (err) {
+			const msg = err.response?.data?.message || err.message || 'Failed to add user'
+			setError(msg)
+			console.error('Error adding user:', err)
+		}
 	}
 	const delUser = async id => {
 		await api.delete('/admin/users/' + id)
@@ -119,6 +138,8 @@ export default function Admin() {
 			{activeTab === 'users' && (
 			<div className="card">
 				<h2>Add Donor/Patient</h2>
+				{error && <div style={{ padding: '10px', marginBottom: '10px', backgroundColor: '#ffcccc', color: '#cc0000', borderRadius: '4px' }}>{error}</div>}
+				{success && <div style={{ padding: '10px', marginBottom: '10px', backgroundColor: '#ccffcc', color: '#00cc00', borderRadius: '4px' }}>{success}</div>}
 				<div className="row">
 					<input placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
 					<input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
@@ -141,7 +162,7 @@ export default function Admin() {
 					<input placeholder="Search users..." value={userQuery} onChange={e => setUserQuery(e.target.value)} />
 				</div>
 				<table>
-					<thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Group</th><th>Active</th><th>Actions</th></tr></thead>
+					<thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Group</th><th>Active</th><th>Created By</th><th>Actions</th></tr></thead>
 					<tbody>
 						{users
 							.filter(u => {
@@ -152,12 +173,23 @@ export default function Admin() {
 									(u.role || '').toLowerCase().includes(q)
 							})
 							.map(u => (
-							<tr key={u._id}>
+							<tr key={u._id} style={{ backgroundColor: u.createdBy ? '#f0f8ff' : 'transparent' }}>
 								<td>{u.name}</td>
 								<td>{u.email}</td>
 								<td>{u.role}</td>
 								<td>{u.bloodGroup}</td>
 								<td>{String(u.active)}</td>
+								<td style={{ fontSize: '0.9em', color: u.createdBy ? '#0066cc' : '#999' }}>
+									{u.createdBy ? (
+										<span title={`Added by: ${u.createdBy.name}`}>
+											🏥 Bank Admin
+										</span>
+									) : (
+										<span title="Self-registered">
+											👤 Self-registered
+										</span>
+									)}
+								</td>
 								<td className="actions">
 									<button className="secondary" onClick={() => delUser(u._id)}>Delete</button>
 								</td>

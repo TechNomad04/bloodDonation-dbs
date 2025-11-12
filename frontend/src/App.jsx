@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
-import Login from './pages/Login'
+import Login from './pages/LoginModern'
 import SuperAdmin from './pages/SuperAdmin'
 import Admin from './pages/Admin'
-import Donor from './pages/Donor'
-import Patient from './pages/Patient'
+import DonorModern from './pages/DonorModern'
+import PatientModern from './pages/PatientModern'
 
 export default function App() {
   return (
@@ -33,7 +33,7 @@ export default function App() {
             path="/donor"
             element={
               <ProtectedRoute allowedRoles={['donor']}>
-                <Donor />
+                <DonorModern />
               </ProtectedRoute>
             }
           />
@@ -41,7 +41,7 @@ export default function App() {
             path="/patient"
             element={
               <ProtectedRoute allowedRoles={['patient']}>
-                <Patient />
+                <PatientModern />
               </ProtectedRoute>
             }
           />

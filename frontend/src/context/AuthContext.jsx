@@ -10,23 +10,29 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Check for existing session
-    const role = localStorage.getItem('role')
-    const name = localStorage.getItem('name')
-    const bank = localStorage.getItem('bank')
-    const bloodGroup = localStorage.getItem('bloodGroup')
+    const token = localStorage.getItem('token')
+    const userStr = localStorage.getItem('user')
     
-    if (role) {
-      setUser({ role, name, bank, bloodGroup })
+    if (token && userStr) {
+      try {
+        const userData = JSON.parse(userStr)
+        setUser(userData)
+      } catch (e) {
+        // Invalid JSON, clear storage
+        localStorage.clear()
+      }
     }
     setLoading(false)
   }, [])
 
   const login = (userData) => {
     setUser(userData)
-    localStorage.setItem('role', userData.role)
-    localStorage.setItem('name', userData.name || '')
-    localStorage.setItem('bank', userData.bank || '')
-    localStorage.setItem('bloodGroup', userData.bloodGroup || '')
+    localStorage.setItem('user', JSON.stringify(userData))
+    // Also store token (should be set elsewhere)
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.warn('Token not found in localStorage after login')
+    }
 
     // Navigate based on role
     switch (userData.role) {

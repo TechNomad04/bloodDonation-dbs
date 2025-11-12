@@ -6,7 +6,8 @@ const schema = new mongoose.Schema({
 	role: { type: String, enum: ['superadmin', 'admin', 'donor', 'patient'], required: true },
 	bloodGroup: { type: String, enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] },
 	bank: { type: mongoose.Schema.Types.ObjectId, ref: 'BloodBank' },
-	active: { type: Boolean, default: true }
+	active: { type: Boolean, default: true },
+	createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null, description: 'Admin who created this user; null if self-registered' }
 }, { timestamps: true })
 export default mongoose.model('User', schema)
 

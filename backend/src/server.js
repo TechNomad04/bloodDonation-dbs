@@ -21,16 +21,16 @@ app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
 
-// MongoDB Connection with proper logging
+
 mongoose.connect(MONGO_URL)
   .then(() => {
-    console.log('✅ Connected to MongoDB successfully')
+    console.log(' Connected to MongoDB successfully')
   })
   .catch((err) => {
-    console.error('❌ MongoDB connection error:', err)
+    console.error('MongoDB connection error:', err)
   })
 
-// Log all MongoDB operations in development
+
 if (process.env.NODE_ENV !== 'production') {
   mongoose.set('debug', true)
 }
@@ -42,12 +42,12 @@ app.use('/requests', requestRoutes)
 app.use('/superadmin', superadminRoutes)
 
 io.on('connection', (socket) => {
-  console.log('🟢 Realtime client connected', socket.id)
-  socket.on('disconnect', () => console.log('🔴 Realtime client disconnected', socket.id))
+  console.log(' Realtime client connected', socket.id)
+  socket.on('disconnect', () => console.log('Realtime client disconnected', socket.id))
 })
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`)
+  console.log(` Server running on port ${PORT}`)
 })
 
 
